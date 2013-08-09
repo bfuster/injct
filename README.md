@@ -65,15 +65,15 @@ assert.ok(userService.userRepository instanceof AnotherRepository);
 Create a dependency injection provider to not spread injct.register()
 
 ```
-// dependency.js
+// load-dependencies.js
 var injct = require('injct');
 
-exports.init = function() {
+module.exports = function() {
     injct.register('userRepository', require('./UserRepository.js'));
 }
 
 //from app.js
-require('./dependency.js').init();
+require('./load-dependencies.js');
 ```
 
 From mocha you can register the dependencies you need for each test
