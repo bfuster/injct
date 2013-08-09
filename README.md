@@ -10,7 +10,7 @@ npm install injct --save
 var injct = require('injct');
 
 function UserRepository() {}
-injct.register('userRepository', UserRepository);
+injct.register({userRepository: UserRepository});
 
 function UserService(userRepository) {
     this.userRepository = userRepository;
@@ -25,11 +25,11 @@ assert.equal(userService.userRepository instanceof UserRepository);
 
 * prototype: new instance when the class is requested
 ```
-injct.register(name, class)
+injct.register({propertyName:Class})
 ```
 * unique: reuse the instance
 ```
-injct.unique(name, class)
+injct.unique({propertyName:Class})
 ```
 
 ### mocking
@@ -37,7 +37,7 @@ injct.unique(name, class)
 Say you have a registered UserRepository class like this:
 ```
 var injct = require('injct');
-injct.register('userRepository', UserRepository);
+injct.register({userRepository: UserRepository});
 
 function UserRepository() {}
 module.exports = UserRepository;
@@ -54,7 +54,7 @@ function UserService(userRepository) {
 You can mock the repository behavior, no matter the scope
 
 ```
-injct.register('userRepository', function AnotherRepository(){});
+injct.register({userRepository: function AnotherRepository(){}});
 
 var userService = new UserService();
 assert.ok(userService.userRepository instanceof AnotherRepository);
@@ -69,7 +69,10 @@ Create a dependency injection provider to not spread injct.register()
 var injct = require('injct');
 
 module.exports = function() {
-    injct.register('userRepository', require('./UserRepository.js'));
+    injct.register({
+        userRepository: require('./UserRepository.js'),
+        userService: require('./UserService.js');
+    });
 }
 
 //from app.js
@@ -84,7 +87,7 @@ function FakeRepository() {
     this.fake = true;
     this.save = function() {}
 }
-injct.register('userRepository', FakeRepository);
+injct.register({userRepository: FakeRepository});
 
 ```
 

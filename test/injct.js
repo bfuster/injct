@@ -14,7 +14,7 @@ describe('injct', function() {
             function UserRepository() {
                 count++;
             }
-            injct.register('userRepository', UserRepository);
+            injct.register({userRepository:UserRepository});
 
             function UserService(userRepository) {
                 this.userRepository = userRepository;
@@ -41,7 +41,7 @@ describe('injct', function() {
                 count++;
             }
 
-            injct.unique('userRepository', UserRepository);
+            injct.unique({userRepository: UserRepository});
 
             function UserService(ur) {
                 this.userRepository = ur;
@@ -67,7 +67,7 @@ describe('injct', function() {
 
             function FakeBar(){}
 
-            injct.register('bar', FakeBar);
+            injct.register({bar:FakeBar});
             foo = new Foo();
             assert.ok(foo.bar instanceof FakeBar);
 
@@ -79,10 +79,26 @@ describe('injct', function() {
             assert.ok(foo.unique instanceof Unique);
 
             function FakeUnique(){}
-            injct.unique('unique', FakeUnique);
+            injct.unique({unique: FakeUnique});
 
             foo = new Foo();
             assert.ok(foo.unique instanceof FakeUnique);
+        });
+
+        it('should be able to inject using json', function() {
+
+            function Nice() {}
+            injct.register({
+                nice: Nice
+            });
+
+            function Bla(nice) {
+                this.nice = nice;
+                injct.apply(this);
+            }
+
+            assert.ok(new Bla().nice instanceof Nice);
+
         });
 
     });

@@ -1,5 +1,6 @@
 var injct = require('../../lib/injct.js');
-var Unique = function() {}
+function Unique() {}
+injct.unique({unique: Unique});
 module.exports = Unique;
 
-injct.unique('unique', Unique);
+
