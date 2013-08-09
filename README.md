@@ -34,17 +34,16 @@ injct.register(name, class))
 
 ### mocking
 
-Say you have a user repository class like this:
+Say you have a registered UserRepository class like this:
 ```
 var injct = require('injct');
 injct.register('userRepository', UserRepository);
-function UserRepository() {
 
-}
+function UserRepository() {}
 module.exports = UserRepository;
 ```
 
-And a user service that expects that user repository to be injected
+And an user service that expects that UserRepository to be injected
 ```
 function UserService(userRepository) {
     this.userRepository = userRepository;
@@ -56,6 +55,7 @@ You can mock the repository behavior, no matter the scope
 
 ```
 injct.register('userRepository', function AnotherRepository(){});
+
 var userService = new UserService();
 assert.ok(userService.userRepository instanceof AnotherRepository);
 ```
