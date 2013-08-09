@@ -1,5 +1,9 @@
 ## injct
 
+```
+npm install injct --save
+```
+
 ### extremely simple dependency injection for nodejs
 
 ```
