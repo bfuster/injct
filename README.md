@@ -23,13 +23,13 @@ assert.equal(userService.userRepository instanceof UserRepository);
 
 ### two scopes: prototype and unique
 
-* prototype: your dependency will be a fresh instance
+* prototype: new instance when the class is requested
 ```
-injct.register(name, class))
+injct.register(name, class)
 ```
 * unique: reuse the instance
 ```
-(injct.unique(name, class))
+injct.unique(name, class)
 ```
 
 ### mocking
