@@ -60,3 +60,31 @@ var userService = new UserService();
 assert.ok(userService.userRepository instanceof AnotherRepository);
 ```
 
+### using with express and mocha
+
+Create a dependency injection provider to not spread injct.register()
+
+```
+// dependency.js
+var injct = require('injct');
+
+exports.init = function() {
+    injct.register('userRepository', require('./UserRepository.js'));
+}
+
+//from app.js
+require('./dependency.js').init();
+```
+
+From mocha you can register the dependencies you need for each test
+
+```
+var injct = require('injct');
+function FakeRepository() {
+    this.fake = true;
+    this.save = function() {}
+}
+injct.register('userRepository', FakeRepository);
+
+```
+
