@@ -68,12 +68,10 @@ Create a dependency injection provider to not spread injct.register()
 // load-dependencies.js
 var injct = require('injct');
 
-module.exports = function() {
-    injct.register({
-        userRepository: require('./UserRepository.js'),
-        userService: require('./UserService.js');
-    });
-}
+injct.register({
+    userRepository: require('./UserRepository.js'),
+    userService: require('./UserService.js');
+});
 
 //from app.js
 require('./load-dependencies.js');
