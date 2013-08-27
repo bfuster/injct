@@ -21,16 +21,18 @@ var userService = new UserService();
 assert.equal(userService.userRepository instanceof UserRepository);
 ```
 
-### two scopes: prototype and unique
+### three types: prototype, unique and static
 
 * prototype: new instance when the class is requested
 ```
 injct.register({propertyName:Class})
 ```
-* unique: reuse the instance
+* unique: reuse the same instance (application scoped)
 ```
 injct.unique({propertyName:Class})
 ```
+* static: for non-objects when using just exports.function in a module
+inject.static({propertyName:Module})
 
 ### mocking
 
@@ -51,13 +53,19 @@ function UserService(userRepository) {
 }
 ```
 
-You can mock the repository behavior, no matter the scope
+You can mock the repository behavior by redefining the injected property:
 
 ```
 injct.register({userRepository: function AnotherRepository(){}});
 
 var userService = new UserService();
 assert.ok(userService.userRepository instanceof AnotherRepository);
+```
+
+or by setting your mock in the constructor:
+
+```
+new UserService(new FakeUserRepository());
 ```
 
 ### using with express and mocha

@@ -2,7 +2,8 @@ var injct = require('../lib/injct.js')
     , assert = require('assert')
     , Foo = require('./fixture/foo.js')
     , Bar = require('./fixture/bar.js')
-    , Unique = require('./fixture/unique.js');
+    , Unique = require('./fixture/unique.js')
+    , Static = require('./fixture/static.js');
 
 describe('injct', function() {
 
@@ -69,6 +70,32 @@ describe('injct', function() {
             new UserService();
 
             assert.equal(count, 1);
+
+        });
+
+        it('should throw an error if the property is not an object', function() {
+
+            assert.throws(function() {
+                injct.unique({static: Static})
+            }, Error);
+
+        });
+
+    });
+
+    describe('#static', function() {
+
+        it('should be able to use static modules', function() {
+
+            function FakeService(_static) {
+                this._static = _static;
+                injct.apply(this);
+            }
+
+            injct.static({_static: Static});
+
+            var service = new FakeService();
+            assert.ok(service._static.doSomething());
 
         });
 
