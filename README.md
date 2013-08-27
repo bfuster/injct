@@ -32,7 +32,9 @@ injct.register({propertyName:Class})
 injct.unique({propertyName:Class})
 ```
 * static: for non-objects when using just exports.function in a module
+```
 inject.static({propertyName:Module})
+```
 
 ### mocking
 
