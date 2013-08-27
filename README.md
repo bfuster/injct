@@ -99,3 +99,8 @@ injct.register({userRepository: FakeRepository});
 
 ```
 
+### test
+
+```
+make test
+```
