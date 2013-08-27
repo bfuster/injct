@@ -30,6 +30,22 @@ describe('injct', function() {
             assert.equal(count, 4);
         });
 
+        it('should be able to inject using json', function() {
+
+            function Nice() {}
+            injct.register({
+                nice: Nice
+            });
+
+            function Bla(nice) {
+                this.nice = nice;
+                injct.apply(this);
+            }
+
+            assert.ok(new Bla().nice instanceof Nice);
+
+        });
+
     });
 
     describe('#unique', function() {
@@ -85,19 +101,24 @@ describe('injct', function() {
             assert.ok(foo.unique instanceof FakeUnique);
         });
 
-        it('should be able to inject using json', function() {
+        it('should be able to use a constructor and ignore injected properties', function() {
 
-            function Nice() {}
-            injct.register({
-                nice: Nice
-            });
-
-            function Bla(nice) {
-                this.nice = nice;
+            function Foo(bar) {
+                this.bar = bar;
                 injct.apply(this);
             }
 
-            assert.ok(new Bla().nice instanceof Nice);
+            function Bar() {}
+
+            injct.register({bar: Bar});
+
+            function FakeBar() {}
+
+            var fakeFoo = new Foo(new FakeBar());
+            assert.ok(fakeFoo.bar instanceof FakeBar);
+
+            var foo = new Foo();
+            assert.ok(foo.bar instanceof Bar);
 
         });
 

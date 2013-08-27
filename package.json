@@ -1,6 +1,6 @@
 {
   "name": "injct",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "dependency injection for nodejs",
   "main": "lib/injct.js",
   "scripts": {
