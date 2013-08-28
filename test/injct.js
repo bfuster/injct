@@ -76,7 +76,8 @@ describe('injct', function() {
         it('should throw an error if the property is not an object', function() {
 
             assert.throws(function() {
-                injct.unique({static: Static})
+                injct.unique({static: Static});
+                new UserService();
             }, Error);
 
         });
@@ -149,6 +150,21 @@ describe('injct', function() {
 
         });
 
+    });
+
+    describe('unregisterAll', function() {
+
+       it('should remove all injections', function() {
+           injct.unregisterAll();
+           assert.deepEqual(injct.injections().unique, {});
+           assert.deepEqual(injct.injections().static, {});
+           assert.deepEqual(injct.injections().prototype, {});
+       });
+
+    });
+
+    describe('order does not matter', function() {
+        //TODO
     });
 
 });
