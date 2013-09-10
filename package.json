@@ -22,6 +22,7 @@
   "author": "Bruno Fuster",
   "license": "BSD",
   "dependencies": {
-    "mocha": "~1.12.0"
+    "mocha": "~1.12.0",
+    "underscore": "~1.5.2"
   }
 }

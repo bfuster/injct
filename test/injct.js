@@ -3,7 +3,8 @@ var injct = require('../lib/injct.js')
     , Foo = require('./fixture/foo.js')
     , Bar = require('./fixture/bar.js')
     , Unique = require('./fixture/unique.js')
-    , Static = require('./fixture/static.js');
+    , Static = require('./fixture/static.js')
+    , _ = require('underscore');
 
 describe('injct', function() {
 
@@ -155,16 +156,49 @@ describe('injct', function() {
     describe('unregisterAll', function() {
 
        it('should remove all injections', function() {
+           assert.deepEqual(_.keys(injct.injections()).length, 6);
            injct.unregisterAll();
-           assert.deepEqual(injct.injections().unique, {});
-           assert.deepEqual(injct.injections().static, {});
-           assert.deepEqual(injct.injections().prototype, {});
+           assert.deepEqual(injct.injections(), {});
        });
 
     });
 
-    describe('order does not matter', function() {
-        //TODO
+    describe('circular references', function() {
+
+        it('should throw an error when there is circular reference', function() {
+
+            function A(b) {
+                this.b = b;
+                injct.apply(this);
+            }
+
+            function B(a) {
+                this.a = a;
+                injct.apply(this);
+            }
+
+            injct.unique({
+                a: A,
+                b: B
+            });
+
+            assert.throws(function() {
+                var a = new A();
+            }, /Circular/);
+
+        });
+
     });
+
+    describe('getInstance', function() {
+        it('should be able to get an instance', function() {
+
+            function A() {}
+            injct.unique({a: A});
+
+            var a = injct.getInstance('a');
+            assert.ok(a instanceof A);
+        });
+    })
 
 });
